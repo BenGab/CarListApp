@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CarListApp.Services;
+using CarListApp.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace CarListApp
 {
@@ -19,6 +21,10 @@ namespace CarListApp
     		builder.Logging.AddDebug();
 #endif
 
+
+            builder.Services.AddSingleton<CarService>();
+            builder.Services.AddSingleton<CarsViewModel>();
+            builder.Services.AddSingleton<MainPage>();
             return builder.Build();
         }
     }
