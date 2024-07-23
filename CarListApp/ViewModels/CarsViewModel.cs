@@ -23,8 +23,8 @@ namespace CarListApp.ViewModels
         {
             try
             {
-                IsLoading = true;
                 if (IsLoading) return;
+                IsLoading = true;
                 if (Cars.Any()) Cars.Clear();
                 carService.GetCars().ForEach(car => Cars.Add(car));
             }
