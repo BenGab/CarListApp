@@ -8,19 +8,25 @@
              Title="{Binding Title}">
 
     <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*, Auto">
-        <CollectionView Grid.ColumnSpan="2" ItemsSource="{Binding Cars}" SelectionMode="None">
+        <CollectionView ItemsSource="{Binding Cars}" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Car">
-                    <Frame HeightRequest="90">
-                        <HorizontalStackLayout Padding="10" Spacing="5">
-                            <Label Text="{Binding Make}" />
-                            <Label Text="{Binding Model}" />
-                            
-                        </HorizontalStackLayout>
-                    </Frame>
+                    <Grid Padding="10">
+                        <Frame HeightRequest="90">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:CarsViewModel}}, Path=GetCarDetailsCommand}" 
+                                    CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <HorizontalStackLayout Padding="10" Spacing="5">
+                                <Label Text="{Binding Make}" />
+                                <Label Text="{Binding Model}" />
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>            
         </CollectionView>
-        <Button Text="Fetch cars" Command="{Binding GetCarsCommand}" IsEnabled="{Binding isNotLoading}" Grid.Row="1" Grid.Column="0"/>
+        <Button Text="Fetch cars" Command="{Binding GetCarsCommand}" IsEnabled="{Binding isNotLoading}" Grid.Row="1" Grid.Column="0" Margin="9"/>
     </Grid>
 </ContentPage>

@@ -1,5 +1,7 @@
 ﻿using CarListApp.Models;
 using CarListApp.Services;
+using CarListApp.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -15,8 +17,12 @@ namespace CarListApp.ViewModels
         public CarsViewModel(CarService carService)
         {
             Title = "Car List";
+            isRefreshing = false;
             this.carService = carService;
         }
+
+        [ObservableProperty]
+        bool isRefreshing;
 
         [RelayCommand]
         async Task GetCars()
@@ -25,6 +31,7 @@ namespace CarListApp.ViewModels
             {
                 if (IsLoading) return;
                 IsLoading = true;
+                isRefreshing = true;
                 if (Cars.Any()) Cars.Clear();
                 carService.GetCars().ForEach(car => Cars.Add(car));
             }
@@ -36,7 +43,18 @@ namespace CarListApp.ViewModels
             finally
             {
                 IsLoading = false;
+                isRefreshing = false;
             }
+        }
+
+        [RelayCommand]
+        async Task GetCarDetails(Car car)
+        {
+            if(car == null) return;
+            await Shell.Current.GoToAsync(nameof(CarDetailsPage), true, new Dictionary<string, object>
+            {
+                { nameof(Car), car }
+            });
         }
     }       
 }

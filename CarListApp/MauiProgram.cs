@@ -1,5 +1,6 @@
 ﻿using CarListApp.Services;
 using CarListApp.ViewModels;
+using CarListApp.Views;
 using Microsoft.Extensions.Logging;
 
 namespace CarListApp
@@ -24,7 +25,10 @@ namespace CarListApp
 
             builder.Services.AddSingleton<CarService>();
             builder.Services.AddSingleton<CarsViewModel>();
+            builder.Services.AddTransient<CarDetailsViewModel>();
+          
             builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddTransient<CarDetailsPage>();
             return builder.Build();
         }
     }
